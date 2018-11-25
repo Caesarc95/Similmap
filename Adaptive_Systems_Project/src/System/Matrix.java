@@ -10,30 +10,55 @@ public class Matrix {
 	private RatingAlgorithm ratings= new RatingAlgorithm();
 	private SimilarityAlgorithm similarities= new SimilarityAlgorithm();
 
-	public Matrix(int i, int j, String simalg, String ratalg) {
+	public Matrix(int i, int j, int emptyPerc, String simalg, String ratalg) {
 		
-		map = initialize(i,j);
+		if ( emptyPerc<0 || emptyPerc>100) throw new RuntimeException("Number above 100");
+		
+		map = initialize(i,j, emptyPerc);
 		
 		simil = similarities.compute(map, simalg);
 		
-		map = ratings.compute(map, simil, ratalg);
-		
 	}
 	
-	public HashMap <User, LinkedList<Item>> initialize(int u, int i){
+	public HashMap <User, LinkedList<Item>> initialize(int u, int i, int emptyPerc){
 		map = new HashMap <User, LinkedList<Item>>();
 		
-		for(; i<5; i++) {
-			User = new User();
-		}
-		
-		for (User u : map.keySet()) {
+		for(; u>0; u--) {
 			
+			int rId = new Random().nextInt();
+			LinkedList<Item> list = new LinkedList<Item>();
+			for (int j=0; j<i; j++) {
+				int percentage = new Random().nextInt(101);
+				if (percentage>emptyPerc) {
+					int rr = new Random().nextInt(4)+1;
+					list.add(new Item(rr));
+				}
+				else list.add(new Item(0));
+			}
+			map.put(new User(rId), list);
 		}
-		
-		
 		
 		return map;
 		
+	}
+
+	@Override
+	public String toString() {
+		String text = "";
+		for (User u : map.keySet()) {
+			text = text + "\n" + u.toString();
+			for (Item i : map.get(u)) {
+				text = text  + i.toString();
+			}
+		};
+		return text;
+	}
+	
+	
+	public static void main (String[] args){
+		
+		Matrix matrix= new Matrix(4,5,25, "", "");
+		
+		System.out.println(matrix.toString());
 	}
 }
