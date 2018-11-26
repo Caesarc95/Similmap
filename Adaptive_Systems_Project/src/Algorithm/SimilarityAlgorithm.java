@@ -62,8 +62,8 @@ public class SimilarityAlgorithm {
 						double den2=0;
 						for (int i=0; i<ll.size();i++) {
 							
-							int rate1 = 0;
-							int rate2 = 0;
+							double rate1 = 0;
+							double rate2 = 0;
 							Item item = ll.get(i);
 							for (int j=0; j<ll1.size();j++) {
 								if (ll1.get(j).getId() == item.getId()) {
