@@ -22,10 +22,48 @@ public class Matrix {
 	
 	public HashMap <User, LinkedList<Item>> initialize(int u, int i, int emptyPerc){
 		map = new HashMap <User, LinkedList<Item>>();
-		
-
-		
 		LinkedList<Item> list = new LinkedList<Item>();
+		int [] arr = new int[20];
+		arr [0]=5;
+		arr [1]=1;
+		arr [2]=0;
+		arr [3]=2;
+		arr [4]=2;
+		arr [5]=1;
+		arr [6]=5;
+		arr [7]=2;
+		arr [8]=5;
+		arr [9]=5;
+		arr [10]=2;
+		arr [11]=0;
+		arr [12]=3;
+		arr [13]=5;
+		arr [14]=4;
+		arr [15]=4;
+		arr [16]=3;
+		arr [17]=5;
+		arr [18]=3;
+		arr [19]=0;
+		int c=0;
+		for(int j=0;j<i;j++) {
+			list.add(new Item());
+		}
+		for(int cc=0; cc<u; cc++) {
+
+			LinkedList<Item> userlist = new LinkedList<Item>();
+			
+			for(int j=0;j<i;j++) {
+				userlist.add(new Item(arr[c],list.get(j).getId()));
+				c++;
+			}
+			
+			map.put(new User(cc+1), userlist);
+		}
+		
+		return map;
+		
+		
+		/*LinkedList<Item> list = new LinkedList<Item>();
 		
 		for(int j=0;j<i;j++) {
 			list.add(new Item());
@@ -51,7 +89,7 @@ public class Matrix {
 			map.put(new User(rId), userlist);
 		}
 		
-		return map;
+		return map;*/
 		
 	}
 
