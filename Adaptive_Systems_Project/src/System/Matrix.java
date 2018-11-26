@@ -17,7 +17,11 @@ public class Matrix {
 		map = initialize(i,j, emptyPerc);
 		
 		matrix = similarities.compute(map, "PearsonCorrelation");
-		
+
+	}
+	
+	public void fill() {
+		ratings.compute(map, matrix, 1);
 	}
 	
 	public HashMap <User, LinkedList<Item>> initialize(int u, int i, int emptyPerc){
@@ -117,9 +121,11 @@ public class Matrix {
 	public static void main (String[] args){
 		
 		Matrix matrix= new Matrix(4,5,25, "", "");
-		
+
 		System.out.println(matrix.toString());
 		
 		matrix.printMatrix();
+		matrix.fill();
+		System.out.println(matrix.toString());
 	}
 }

@@ -10,6 +10,8 @@ public class RatingAlgorithm {
 			HashMap <User, LinkedList<Item>> map, 
 			double [] [] users, int k){
 		
+		if (k>users.length)throw new RuntimeException();
+		
 		for (User u : map.keySet()) {
 			LinkedList<Item> list=map.get(u);
 			for (Item i : list) {
@@ -32,7 +34,7 @@ public class RatingAlgorithm {
 		double [] rank = new double [users.length];
 		while(it.hasNext()) {
 			User u2=it.next();
-			if (u2.equals(u)){
+			if (u2.getId()==u.getId()){
 				row=c;
 				for (int i=0;i<users[c].length;i++) {
 					rank[i] = users[c][i];
@@ -48,9 +50,9 @@ public class RatingAlgorithm {
 		
 		for (int i=0; i<k; i++) {
 			double max=rank[users.length-i-1];
-			Iterator<User> it2 = map.keySet().iterator();
+			it = map.keySet().iterator();
 			int cc=0;
-			while(it2.hasNext()) {
+			while(it.hasNext()) {
 				User u2=it.next();
 				if (users[row][cc]==max){
 					for (Item ite : map.get(u2)) {
