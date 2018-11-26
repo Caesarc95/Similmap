@@ -1,5 +1,6 @@
 package Entities;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 
 public class Item extends Entity{
@@ -29,7 +30,8 @@ public class Item extends Entity{
 
 	@Override
 	public String toString() {
-		return "Item [rating=" + rating + ", id=" + id + "]" + "\t";
+		DecimalFormat numberformat = new DecimalFormat("0.00");
+		return "Item [rating=" + numberformat.format(rating) + ", id=" + id + "]" + "\t";
 	}
 
 	public int getId() {

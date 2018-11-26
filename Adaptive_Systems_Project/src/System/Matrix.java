@@ -21,11 +21,11 @@ public class Matrix {
 	}
 	
 	public void fill() {
-		ratings.compute(map, matrix, 1);
+		ratings.compute(map, matrix, 3);
 	}
 	
 	public HashMap <User, LinkedList<Item>> initialize(int u, int i, int emptyPerc){
-		map = new HashMap <User, LinkedList<Item>>();
+		/*map = new HashMap <User, LinkedList<Item>>();
 		LinkedList<Item> list = new LinkedList<Item>();
 		int [] arr = new int[20];
 		arr [0]=5;
@@ -64,18 +64,17 @@ public class Matrix {
 			map.put(new User(cc+1), userlist);
 		}
 		
-		return map;
+		return map;*/
+		map = new HashMap <User, LinkedList<Item>>();
 		
-		
-		/*LinkedList<Item> list = new LinkedList<Item>();
+		LinkedList<Item> list = new LinkedList<Item>();
 		
 		for(int j=0;j<i;j++) {
 			list.add(new Item());
 		}
-		
+
+		int cc=0;
 		for(; u>0; u--) {
-			
-			int rId = new Random().nextInt(1000);
 			LinkedList<Item> userlist = new LinkedList<Item>();
 			
 			for(int j=0;j<i;j++) {
@@ -86,14 +85,15 @@ public class Matrix {
 				Item item = it.next();
 				int percentage = new Random().nextInt(101);
 				if (percentage>emptyPerc) {
-					int rr = new Random().nextInt(4)+1;
+					int rr = new Random().nextInt(5)+1;
 					item.setRating(rr);
 				}
 			}
-			map.put(new User(rId), userlist);
+			cc++;
+			map.put(new User(cc), userlist);
 		}
 		
-		return map;*/
+		return map;
 		
 	}
 
@@ -120,7 +120,7 @@ public class Matrix {
 	
 	public static void main (String[] args){
 		
-		Matrix matrix= new Matrix(4,5,25, "", "");
+		Matrix matrix= new Matrix(4,4,25, "", "");
 
 		System.out.println(matrix.toString());
 		

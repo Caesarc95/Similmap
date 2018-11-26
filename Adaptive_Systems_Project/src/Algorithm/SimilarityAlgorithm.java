@@ -16,6 +16,7 @@ public class SimilarityAlgorithm {
 				avg+=list.get(i).getRating();
 			}
 		}
+		if (c==0) return 0;
 		return avg/c;
 	}
 
@@ -83,10 +84,16 @@ public class SimilarityAlgorithm {
 							den2+=((rate2-avg2)*(rate2-avg2));
 							System.out.print(den2 + "\t");
 						}
-						double pc = num/Math.sqrt((den1*den2));
-						System.out.print(pc + "\t");
-						matrix[r][c]=pc;
-						c+=1;
+						if (num==0 || den1*den2==0) {
+							matrix[r][c]=0;
+						}
+						else{
+							double pc = num/Math.sqrt((den1*den2));
+							System.out.print(pc + "\t");
+						
+							matrix[r][c]=pc;
+							c+=1;
+						}
 					}
 						
 						

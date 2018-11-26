@@ -26,11 +26,11 @@ public class RatingAlgorithm {
 	
 	public double rate(User u, Item item, double [] [] users, HashMap <User, LinkedList<Item>> map, int k) {
 		
-		double rate=0;
 		int c=0;
 		int row=0;
 		Iterator<User> it = map.keySet().iterator();
-		
+
+		System.out.println();
 		double [] rank = new double [users.length];
 		while(it.hasNext()) {
 			User u2=it.next();
@@ -39,36 +39,61 @@ public class RatingAlgorithm {
 				for (int i=0;i<users[c].length;i++) {
 					rank[i] = users[c][i];
 					if (c==i) {
-						rank[i]=0;
+						rank[i]=-1;
 					}
 				}
 			}
 			c++;
 		}
-		
+
+		System.out.println();
 		rank = bubbleSort(rank);
+
+		for (int i=0; i<users.length; i++) {
+			System.out.print("\t"+rank[users.length-i-1]);
+		}
+		
+
+		double rate=0;
 		
 		for (int i=0; i<k; i++) {
-			double max=rank[users.length-i-1];
+			System.out.print("\t"+rank[users.length-i-1]);
 			it = map.keySet().iterator();
 			int cc=0;
 			while(it.hasNext()) {
+				double max=rank[users.length-i-1];
 				User u2=it.next();
 				if (users[row][cc]==max){
+					System.out.print("\t"+users[row][cc]);
+					System.out.print("\t"+max);
+					System.out.print("\t"+rate);
 					for (Item ite : map.get(u2)) {
 						if (ite.getId()==item.getId()) {
+
+							System.out.print("\t"+ite.getRating());
 							rate+=max*ite.getRating();
 							rank[users.length-i-1]=users[row][cc];
+							System.out.print("\t"+rate);
 						}
 					}
 				}
 				cc++;
+				System.out.println();
 			}
 		}
+
+		System.out.println();
 		double den=0;
 		for (int i=0;i<k;i++) {
+			System.out.print("\t"+den);
 			den+=rank[users.length-i-1];
 		}
+		System.out.print("\t"+rate);
+		System.out.print("\t"+den);
+		System.out.println("\t"+rate/den);
+		if (den==0) return 0;
+		if (rate/den <0) return 0.1;
+		if (rate/den >5) return 5.0;
 		return rate/den;
 	}
 	
