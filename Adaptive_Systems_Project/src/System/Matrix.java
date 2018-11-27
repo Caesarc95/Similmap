@@ -10,6 +10,9 @@ public class Matrix {
 	private RatingAlgorithm ratings= new RatingAlgorithm();
 	private SimilarityAlgorithm similarities= new SimilarityAlgorithm();
 
+	
+	
+	
 	public Matrix(int i, int j, int emptyPerc, String simalg, String ratalg) {
 		
 		if ( emptyPerc<0 || emptyPerc>100) throw new RuntimeException("Number above 100");
@@ -20,12 +23,15 @@ public class Matrix {
 
 	}
 	
-	public void fill() {
-		ratings.compute(map, matrix, 3);
+	public void fill(int k) {
+		ratings.compute(map, matrix, k);
 	}
 	
 	public HashMap <User, LinkedList<Item>> initialize(int u, int i, int emptyPerc){
-		/*map = new HashMap <User, LinkedList<Item>>();
+		/*
+		 * Testing example matrix
+		 * 
+		map = new HashMap <User, LinkedList<Item>>();
 		LinkedList<Item> list = new LinkedList<Item>();
 		int [] arr = new int[20];
 		arr [0]=5;
@@ -98,6 +104,8 @@ public class Matrix {
 	}
 
 	public void printMatrix() {
+
+		System.out.println();
 		for (int i=0;i<matrix.length;i++) {
 			for (int j=0;j<matrix.length;j++)
 				System.out.print("\t" + matrix[i][j]);
@@ -114,18 +122,108 @@ public class Matrix {
 				text = text  + i.toString();
 			}
 		};
+
 		return text;
 	}
 	
+	/*
+	 * Suggest the most suggested items for the user with this id.
+	 */
+	public void suggestedItems(int id) {
+
+		LinkedList<Item> ordlist = new LinkedList<Item>();
+		
+		User user=null;
+		for (User u : map.keySet()) {
+			if (u.getId()==id) {
+				user = u;
+				LinkedList<Item> oldlist = map.get(u);
+				LinkedList<Item> list = map.get(u);
+				int size = list.size();
+				for (int c = 0; c< size;c++) {
+					Item first = list.getFirst();
+					for (Item i : list) {
+						if (i.getRating()>first.getRating()) {
+							first = i;
+						}
+					}
+					list.remove(first);
+					ordlist.addLast(first);
+				}
+				map.put(user, ordlist);
+			}
+			
+		}
+		if (user==null) throw new RuntimeException("Unexpected error");
+		String text = "\n" + user.toString();
+		for (Item i : ordlist) {
+			text = text  + i.toString();
+		}
+		System.out.println(text);
+	}
 	
 	public static void main (String[] args){
 		
-		Matrix matrix= new Matrix(4,4,25, "", "");
+		Scanner sc = new Scanner(System.in);
+		int users;
+		
+		do {
+			System.out.println("Please enter a legal users number!");
+			while(!sc.hasNextInt()) {
+				System.out.println("That's not a number!");
+				sc.next();
+			}
+			users = sc.nextInt();
+		} while (users<=0);
+		
+		int items;
+		do {
+			System.out.println("Please enter a legal items number!");
+			while(!sc.hasNextInt()) {
+				System.out.println("That's not a number!");
+				sc.next();
+			}
+			items = sc.nextInt();
+		} while (items<=0);
+		int percentage;
+		do {
+			System.out.println("Please enter a legal percentage number!");
+			while(!sc.hasNextInt()) {
+				System.out.println("That's not a number!");
+				sc.next();
+			}
+			percentage = sc.nextInt();
+		} while (percentage<0 || percentage >100);
+		
+		
+		Matrix matrix= new Matrix(users,items,percentage, "", "");
 
 		System.out.println(matrix.toString());
 		
 		matrix.printMatrix();
-		matrix.fill();
+		int k;
+		do {
+			System.out.println("Please enter a legal k-NN number!");
+			while(!sc.hasNextInt()) {
+				System.out.println("That's not a number!");
+				sc.next();
+			}
+			k = sc.nextInt();
+		} while (k<=0 || k >users);
+		matrix.fill(k);
 		System.out.println(matrix.toString());
+		int user;
+		do {
+			System.out.println("Please enter a valid user!");
+			while(!sc.hasNextInt()) {
+				System.out.println("That's not a number!");
+				sc.next();
+			}
+			user = sc.nextInt();
+		} while (user<0 || user > users );
+		
+		matrix.suggestedItems(user);
+		
+		sc.close();
 	}
 }
